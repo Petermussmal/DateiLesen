@@ -1,0 +1,14 @@
+Ein Beispieltext zur Untersuchung der durchschnittlichen Wortlänge 
+
+Wie klappt der Dateiarbeiter?
+
+Erstellen Sie ein Programm, das eine Textdatei einlesen und die durchschnittliche Wortlänge (auf 3 Dezimalen) ermitteln kann. 
+Ebenso muss der am häufigsten auftretende Anfangsbuchstabe sowie Endbuchgstabe bestimmt werden mit jeweiligem Anteil an den Anfangs- bzw. Endbuchstaben sowie der größte der drei Umlautanteile, also Quotient Anzahl der ä durch Anzahl der a , ebenso bei u/ü und o/ö . 
+Klein und Großschreibung werden nicht unterschieden.
+Neben der Anzeige der Resultate (auf der Konsole oder in einer GUI) schreibt Ihr Programm die angezeigten Resultate sowie den auszugsweisen Text zurück in eine neue Datei.
+[Bei langen Texten nur die ersten 200 und die letzten 200 Zeichen, sonst den ganzen Text] 
+
+Datum: 26.5.2023
+Werden Zahlen auch als Worte gezählt?
+Und einzelbuchstaben wie oben? Und Kombinationen wie a/ä ?
+

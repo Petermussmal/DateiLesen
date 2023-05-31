@@ -1,0 +1,57 @@
+Java (Programmiersprache) aus Wikipedia
+
+
+Java ist eine objektorientierte Programmiersprache und eine eingetragene Marke des Unternehmens Sun Microsystems, welches 2010 von Oracle aufgekauft wurde. Die Programmiersprache ist ein Bestandteil der Java-Technologie – diese besteht grundsätzlich aus dem Java-Entwicklungswerkzeug (JDK) zum Erstellen von Java-Programmen und der Java-Laufzeitumgebung (JRE) zu deren Ausführung. Die Laufzeitumgebung selbst umfasst die virtuelle Maschine (JVM) und die mitgelieferten Bibliotheken. Java als Programmiersprache sollte nicht mit der Java-Technologie gleichgesetzt werden; Java-Laufzeitumgebungen führen Bytecode aus, der sowohl aus der Programmiersprache Java als auch aus anderen Programmiersprachen wie Groovy, Kotlin und Scala kompiliert werden kann. Im Prinzip könnte jede Programmiersprache als Grundlage für Java-Bytecode genutzt werden, meistens existieren aber keine entsprechenden Bytecode-Compiler.
+
+Die Programmiersprache Java dient innerhalb der Java-Technologie vor allem zum Formulieren von Programmen. Diese liegen zunächst als reiner, menschenverständlicher Text vor, dem sogenannten Quellcode. Dieser Quellcode ist nicht direkt ausführbar; erst der Java-Compiler, der Teil des Entwicklungswerkzeugs ist, übersetzt ihn in den maschinenverständlichen Java-Bytecode. Die Maschine, die diesen Bytecode ausführt, ist jedoch typischerweise virtuell – das heißt, der Code wird meist nicht direkt durch Hardware (etwa einen Mikroprozessor) ausgeführt, sondern durch entsprechende Software auf der Zielplattform.
+
+Zweck dieser Virtualisierung ist Plattformunabhängigkeit: Das Programm soll ohne weitere Änderung auf jeder Rechnerarchitektur laufen können, wenn dort eine passende Laufzeitumgebung installiert ist. Oracle selbst bietet Laufzeitumgebungen für die Betriebssysteme Linux, macOS, Solaris und Windows an. Andere Hersteller lassen eigene Java-Laufzeitumgebungen für ihre Plattform zertifizieren. Auch in Autos, HiFi-Anlagen und anderen elektronischen Geräten wird Java verwendet.
+
+Um die Ausführungsgeschwindigkeit zu erhöhen, werden Konzepte wie die Just-in-time-Kompilierung und die Hotspot-Optimierung verwendet. In Bezug auf den eigentlichen Ausführungsvorgang kann die JVM den Bytecode also interpretieren, ihn bei Bedarf jedoch auch kompilieren und optimieren.
+
+Java ist eine der populärsten Programmiersprachen. In dem seit 2001 veröffentlichten TIOBE-Index lag Java bis 2020, konkurrierend mit C, stets auf den ersten beiden, seit 2021 mit zusätzlicher Konkurrenz von Python, auf den ersten drei Plätzen des Rankings. Nach dem RedMonk-Programmiersprachenindex 2019 liegt Java zusammen mit Python auf dem zweiten Platz nach JavaScript.
+
+Grundkonzepte
+
+Der Entwurf der Programmiersprache Java strebte hauptsächlich fünf Ziele an:[8]
+
+    Sie soll eine einfache, objektorientierte, verteilte und vertraute Programmiersprache sein.
+    Sie soll robust und sicher sein.
+    Sie soll architekturneutral und portabel sein.
+    Sie soll sehr leistungsfähig sein.
+    Sie soll interpretierbar, parallelisierbar und dynamisch sein.
+
+Einfachheit
+    Java ist im Vergleich zu anderen objektorientierten Programmiersprachen wie C++ oder C# einfach, da es einen reduzierten Sprachumfang besitzt und beispielsweise Operatorüberladung und Mehrfachvererbung nicht unterstützt.
+Objektorientierung
+    Java gehört zu den objektorientierten Programmiersprachen.
+Verteilt
+    Eine Reihe einfacher Möglichkeiten für Netzwerkkommunikation, von TCP/IP-Protokollen über Remote Method Invocation bis zu Webservices werden vor allem über Javas Klassenbibliothek angeboten; die Sprache Java selbst beinhaltet keine direkte Unterstützung für verteilte Ausführung.
+Vertrautheit
+    Wegen der syntaktischen Nähe zu C++, der ursprünglichen Ähnlichkeit der Klassenbibliothek zu Smalltalk-Klassenbibliotheken und der Verwendung von Entwurfsmustern in der Klassenbibliothek ist der Umstieg auf Java für erfahrene Programmierer vergleichsweise einfach.
+Robustheit
+    Viele der Designentscheidungen bei der Definition von Java reduzieren die Wahrscheinlichkeit ungewollter Systemfehler; Beispiele dafür sind die starke Typisierung, Garbage Collection, Ausnahmebehandlung sowie Verzicht auf Zeigerarithmetik.
+Sicherheit
+    Dafür stehen Konzepte wie der Class-Loader, der die sichere Zuführung von Klasseninformationen zur Java Virtual Machine steuert, und Security-Manager, die sicherstellen, dass nur Zugriff auf Programmobjekte erlaubt wird, für die entsprechende Rechte vorhanden sind.
+Architekturneutralität
+    Java wurde so entwickelt, dass dieselbe Version eines Programms prinzipiell auf einer beliebigen Computerhardware läuft, unabhängig von ihrem Prozessor oder anderen Hardwarebestandteilen.
+Portabilität
+    Zusätzlich zur Architekturneutralität ist Java portabel. Das heißt, dass elementare Datentypen sowohl in ihrer Größe und internen Darstellung als auch in ihrem arithmetischen Verhalten standardisiert sind. Beispielsweise ist ein float immer ein IEEE 754 Float von 32 Bit Länge. Dasselbe gilt beispielsweise auch für die Klassenbibliothek, mit deren Hilfe man eine vom Betriebssystem unabhängige GUI erzeugen kann.
+Leistungsfähigkeit
+    Java hat aufgrund der Optimierungsmöglichkeit zur Laufzeit das Potenzial, eine bessere Performance als auf Compilezeit-Optimierungen begrenzte Sprachen (C++ etc.) zu erreichen. Dem entgegen steht der Overhead durch die Java-Laufzeitumgebung, sodass die Leistungsfähigkeit von beispielsweise C++-Programmen in einigen Kontexten übertroffen, in anderen aber nicht erreicht wird. Um Leistungsfähigkeit zu gewährleisten, kann in der Java Virtual Machine (JVM) die Performance gemessen werden.
+Interpretierbarkeit
+    Java wird in maschinenunabhängigen Bytecode kompiliert, dieser wiederum kann auf der Zielplattform interpretiert werden. Die Java Virtual Machine interpretiert Java-Bytecode, bevor sie ihn aus Performancegründen kompiliert und optimiert.
+Parallelisierbarkeit
+    Java unterstützt Multithreading, also den parallelen Ablauf von eigenständigen Programmabschnitten. Dazu bietet die Sprache selbst die Schlüsselwörter synchronized und volatile – Konstrukte, die das „Monitor & Condition Variable Paradigma“ von C. A. R. Hoare [13] unterstützen. Die Klassenbibliothek enthält weitere Unterstützungen für parallele Programmierung mit Threads. Moderne JVMs bilden einen Java-Thread auf Betriebssystem-Threads ab und profitieren somit von Prozessoren mit mehreren Rechenkernen.
+Dynamisch
+    Java ist so aufgebaut, dass es sich an dynamisch ändernde Rahmenbedingungen anpassen lässt. Da die Module erst zur Laufzeit gelinkt werden, können beispielsweise Teile der Software (etwa Bibliotheken) neu ausgeliefert werden, ohne die restlichen Programmteile anpassen zu müssen. Interfaces können als Basis für die Kommunikation zwischen zwei Modulen eingesetzt werden; die eigentliche Implementierung kann aber dynamisch und beispielsweise auch während der Laufzeit geändert werden.
+
+Objektorientierung
+Abhängigkeitsgraph der Java-Core-Klassen (erstellt mit jdeps und Gephi). In der Mitte des Diagramms sind die am häufigsten verwendeten Klassen Object und String zu sehen.
+
+Die Grundidee der objektorientierten Programmierung ist, Daten und zugehörige Funktionen möglichst eng in einem sogenannten Objekt zusammenzufassen und nach außen hin zu kapseln (Abstraktion). Die Absicht dahinter ist, große Softwareprojekte einfacher zu verwalten und die Qualität der Software zu erhöhen. Ein weiteres Ziel der Objektorientierung ist ein hoher Grad der Wiederverwendbarkeit von Softwaremodulen.
+
+Ein neuer Aspekt von Java gegenüber den objektorientierten Programmiersprachen C++ und Smalltalk ist die explizite Unterscheidung zwischen Schnittstellen und Klassen, die durch entsprechende Schlüsselwörter interface und class ausgedrückt wird. Java unterstützt kein Erben von mehreren unabhängigen Basisklassen (sogenannte „Mehrfachvererbung“ wie in C++ oder Eiffel), wohl aber das Implementieren einer beliebigen Zahl von Schnittstellen, womit sich viele der entsprechenden Probleme ebenfalls lösen lassen. Dabei werden Methodensignaturen und Standardimplementierungen von Methoden an die abgeleiteten Klassen weitergegeben, jedoch keine Attribute.
+
+Java ist nicht vollständig objektorientiert, da die Grunddatentypen (int, boolean usw.) keine Objekte sind (siehe auch unter Java-Syntax). Sie werden allerdings ab Java 5 bei Bedarf automatisch und für den Programmierer transparent mittels Autoboxing in die entsprechenden Objekttypen und umgekehrt umgewandelt.
+

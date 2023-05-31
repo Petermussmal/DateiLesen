@@ -1,0 +1,108 @@
+Projekt: InfoKurs22GUI_sortV22        aus V21
+Autor:   Theo Heußer
+Version: 14.6.2022
+Zweck:   Demo, wie das Sortieren nach verschiedenen Ordnungskriterien möglich ist, 
+         wobei ohne die Klasse Comparator gearbeitet wird im Gegensatz zu V021.
+            Die (eindeutige) Kürzelbildung wird hier nicht mehr beachtet.
+            siehe dazu:  InfoKurs22GUI_roh, .._Loes, ..Kuerzel
+         Eine Demo, wie die Klasse Student nach drei eigenartigen Kriterien sortiert werden kann.
+         Studentendaten aus csv-artigen Dateien holen:  
+         kursliste22.txt, kursliste23.txt, infoliste.txt, kursliste.txt
+
+                 
+Aufgaben:  vorher: siehe InfoKurs22GUI_sortV21
+     
+         Weitere, selbst erstellte Kriterien direkt durch Lambda-Ausdruck beschrieben 
+         ohne das Comparator-Interface zu nutzen wie in den Klassen  SortA..SortC
+         Auswahl des gewünschten Kriteriums durch a,b,c,d,e !
+         Es wird weder Comparable<> noch Comparator<> genutzt !!!!
+         >>> To Do:  An der Stelle kann man bestimmt sort() aushebeln!!     <<<<<<<<<<<<
+         
+         
+         
+Starten der vorläufigen Fassung:
+    Rechtsklick auf Klasse: Start; 
+    dann  void main(...) auswählen;
+    alles weitere in der grafischen Benutzungsoberfläche (GUI):
+    eine Kurs einlesen, ihn anzeigen lassen, sortieren lassen gemäß a..e,  ...
+
+
+
+vgl. auch InfoKurs22GUI_sortV22_erg.ods
+
+
+
+public void sortiere(char sortArt) {
+        if (sortArt=='a') { kursliste.sort( (s1, s2) -> s1.compareTo(s2));}
+        if (sortArt=='b') { kursliste.sort( (s1, s2) -> s1.vglB(s2)); }
+        if (sortArt=='c') { kursliste.sort( (s1, s2) -> s1.vglC(s2)); }//new SortC());}
+        if (sortArt=='d') { kursliste.sort( new SortA());}        
+        if (sortArt=='e') { kursliste.sort( new SortC());}   
+---------------
+Ergebnisse:
+
+  nach Sortieren:   a       Vergleicht bzgl. der Differenz der Längen von Nach- bzw. Vorname.
+              Hees, Hans : HH :    heesha   0
+            Nebel, Niels : NN :   nebelni   0
+             Adler, Anna : AA :   adleran   1
+           Berger, Berta : BB :  bergerbe   1   
+           Lulldt, Luisa : LL :  lulldtlu   1
+            Casper, Carl : CC :  casperca   2
+       Düsenbart, Dieter : DD :  düsenbdi   3
+       Fimpel, Franz-Uwe : FF :  fimpelfr   3
+           Gold, Aurelia : GA :    goldau   3
+             Müller, Max : MM :  müllerma   3
+         Engelmann, Erik : EE :  engelmer   5
+         
+nach Sortieren:     b       Vergleicht bzgl. der Anzahl der Vokale im Namen
+              Hees, Hans : HH :    heesha       3
+            Casper, Carl : CC :  casperca       3
+             Müller, Max : MM :  müllerma       3
+            Nebel, Niels : NN :   nebelni       4
+             Adler, Anna : AA :   adleran
+           Berger, Berta : BB :  bergerbe
+           Lulldt, Luisa : LL :  lulldtlu
+       Fimpel, Franz-Uwe : FF :  fimpelfr       5
+         Engelmann, Erik : EE :  engelmer       
+       Düsenbart, Dieter : DD :  düsenbdi       6
+           Gold, Aurelia : GA :    goldau
+
+ nach Sortieren:    c        Vergleicht bzgl. summierten ASCII-Werten divid. durch Namenslänge
+             Adler, Anna : AA :   adleran
+           Berger, Berta : BB :  bergerbe
+           Gold, Aurelia : GA :    goldau
+            Casper, Carl : CC :  casperca
+            Nebel, Niels : NN :   nebelni
+         Engelmann, Erik : EE :  engelmer
+              Hees, Hans : HH :    heesha
+       Fimpel, Franz-Uwe : FF :  fimpelfr
+           Lulldt, Luisa : LL :  lulldtlu
+       Düsenbart, Dieter : DD :  düsenbdi
+             Müller, Max : MM :  müllerma           
+             
+ nach Sortieren:    d
+            Nebel, Niels : NN :   nebelni
+              Hees, Hans : HH :    heesha
+             Adler, Anna : AA :   adleran
+           Berger, Berta : BB :  bergerbe
+           Lulldt, Luisa : LL :  lulldtlu
+            Casper, Carl : CC :  casperca
+           Gold, Aurelia : GA :    goldau
+       Fimpel, Franz-Uwe : FF :  fimpelfr
+       Düsenbart, Dieter : DD :  düsenbdi
+             Müller, Max : MM :  müllerma
+         Engelmann, Erik : EE :  engelmer
+        
+ nach Sortieren:    e
+             Adler, Anna : AA :   adleran
+           Berger, Berta : BB :  bergerbe
+           Gold, Aurelia : GA :    goldau
+            Casper, Carl : CC :  casperca
+            Nebel, Niels : NN :   nebelni
+         Engelmann, Erik : EE :  engelmer
+              Hees, Hans : HH :    heesha
+       Fimpel, Franz-Uwe : FF :  fimpelfr
+           Lulldt, Luisa : LL :  lulldtlu
+       Düsenbart, Dieter : DD :  düsenbdi
+             Müller, Max : MM :  müllerma             
+ 

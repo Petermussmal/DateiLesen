@@ -1,0 +1,163 @@
+https://openbook.rheinwerk-verlag.de/javainsel/12_001.html#u12
+
+§ 12    Lambda-Ausdrücke und funktionale Programmierung
+
+An der Entwicklung von Maschinensprache (bzw. Assembler) hin zur Hochsprache ist eine interessante Geschichte der Parametrisierung abzulesen. Schon die ersten Hochsprachen erlaubten eine Parametrisierung von Funktionen mit unterschiedlichen Argumenten. Java wurde im Jahr 1996 »geboren«, also mehrere Jahrzehnte nach den ersten Hochsprachen, und bot von Anfang an parametrisierte Unterprogramme an. Relativ spät folgten dann die Generics; die Parametrisierung des Typs wurde erst 2004 mit der Version 5 realisiert. Bis dahin konnte die Datenstruktur Liste zum Beispiel Zeichenketten ebenso enthalten wie Pantoffeltierchen-Objekte. Funktionale Programmierung ermöglichte nun eine Parametrisierung des Verhaltens – eine Sortiermethode arbeitet immer gleich, aber ihr Verhalten bei den Vergleichen wird angepasst. Das ist eine ganz andere Qualität, als unterschiedliche Werte zu übergeben. Mit Lambda-Ausdrücken ist die Parametrisierung des Verhaltens ganz einfach.
+ 
+
+
+12.1    Funktionale Schnittstellen und Lambda-Ausdrücke
+
+Schnittstellen spielen in Java eine wichtige Rolle, weil sie eine API vorschreiben und ein Bindeglied zwischen der Implementierung und dem Aufrufer sind. Über ein Jahrzehnt boten nur Klassen einen Weg, um Schnittstellen zu implementieren, doch ab Java 8 hat sich das für einige Schnittstellentypen verändert.
+ 
+
+12.1.1    Klassen implementieren Schnittstellen 
+
+Klassen kommen in verschiedenen Ausprägungen vor – schauen wir uns zwei Wege an.
+Geschachtelte Klassen als Code-Transporter
+
+Angenommen, wir sollen Strings so sortieren, dass Weißraum vorne und hinten bei den Vergleichen ignoriert wird, also " Newton " gleich "Newton" ist. Bei Vorgaben dieser Art muss einem Sortieralgorithmus ein Comparator als ein Stückchen Code übergeben werden, damit er die korrekte Reihenfolge herstellen kann. Praktisch sieht das so aus:
+
+Listing 12.1 entfernt.
+
+Der TrimComparator enthält in der compare(…)-Methode den Programmcode für die Vergleichslogik. Ein Exemplar vom TrimComparator wird aufgebaut und Arrays.sort(…) übergeben. Das geht mit weniger Code!
+
+
+Innere anonyme Klassen als Code-Transporter
+
+Klassen enthalten Programmcode, und Exemplare der Klassen werden an Methoden wie sort(…) übergeben, damit der Programmcode dort hinkommt, wo er gebraucht wird. Doch elegant ist das nicht. Für die Beschreibung des Programmcodes ist extra eine eigene Klasse erforderlich. Das ist viel Schreibarbeit, und über eine innere anonyme Klasse lässt sich der Programmcode schon ein wenig verkürzen:
+
+Listing entfernt.
+
+Allerdings ist das immer noch aufwendig: Wir müssen eine Methode überschreiben und dann ein Objekt aufbauen. Für Programmautoren ist das lästig, und die JVM hat es mit vielen überflüssigen Klassendeklarationen zu tun. Die Frage ist: Wenn der Compiler weiß, dass bei sort(…) ein Comparator nötig ist, und wenn ein Comparator sowieso nur eine Methode hat, müssen dann Comparator und compare(…) überhaupt genannt werden?
+ 
+
+
+12.1.2    Lambda-Ausdrücke implementieren Schnittstellen 
+
+Mit Lambda-Ausdrücken lässt sich Programmcode leichter an eine Methode übergeben, denn es gibt eine kompakte Syntax für die Implementierung von Schnittstellen mit einer Operation. Für unser Beispiel sieht das so aus:
+
+Der fett gesetzte Ausdruck nennt sich Lambda-Ausdruck. Er ist eine kompakte Art und Weise, Schnittstellen mit genau einer Methode zu implementieren: Die Schnittstelle Comparator hat genau eine Operation compare(…).
+
+Optisch sind sich ein Lambda-Ausdruck und eine Methodendeklaration ähnlich; was wegfällt, sind Modifizierer, der Rückgabetyp, der Methodenname und (mögliche) throws-Klauseln.
+
+Methodendeklaration
+	
+
+Lambda-Ausdruck
+
+public int compare( String s1, String s2 ) {
+  return s1.trim().compareTo(s2.trim()); 
+}
+
+( String s1, String s2 ) -> { return s1.trim().compareTo(s2.trim()); }
+
+Tabelle 12.1    Vergleich der Methodendeklaration einer Schnittstelle mit dem Lambda-Ausdruck
+
+Wenn wir uns den Lambda-Ausdruck als Implementierung dieser Schnittstelle anschauen, dann lässt sich dort nichts von Comparator oder compare(…) ablesen – ein Lambda-Ausdruck repräsentiert mehr oder weniger nur den Java-Code und lässt das weg, was der Compiler aus dem Kontext herleiten kann.
+
+Den Lambda-Ausdruck haben wir explizit in einer Variablen gespeichert, doch wir hätten ihn auch direkt als Argument von Arrays.sort(…) einsetzen können:
+Das ist natürlich schön kompakt und viel kürzer als mit anoymen Klassen.
+
+
+Allgemeine Syntax für Lambda-Ausdrücke
+
+Alle Lambda-Ausdrücke lassen sich in einer Syntax formulieren, die die folgende allgemeine Form hat:
+( LambdaParameter ) -> { Anweisungen }
+Lambda-Parameter sind sozusagen die Eingabewerte für die Anweisungen. Die Parameterliste wird so deklariert, wie von Methoden oder Konstruktoren bekannt, allerdings gibt es keine Varargs. Es gibt syntaktische Abkürzungen, wie wir später sehen werden, doch vorerst bleiben wir bei dieser Schreibweise.
+
+Der Java-Begriff Lambda-Ausdruck geht auf das Lambda-Kalkül (in der englischen Literatur Lambda calculus genannt, auch geschrieben als λ-calculus) aus den 1930er-Jahren zurück und ist eine formale Sprache zur Untersuchung von Funktionen.
+ 
+
+12.1.3    Funktionale Schnittstellen 
+
+Nicht zu jeder Schnittstelle gibt es eine Abkürzung über einen Lambda-Ausdruck, und es gibt eine zentrale Bedingung, wann ein Lambda-Ausdruck verwendet werden kann.
+Definition:   Schnittstellen, die nur eine Operation (abstrakte Methode) besitzen, heißen funktionale Schnittstellen. Ein Funktionsdeskriptor beschreibt diese Methode. Eine abstrakte Klasse mit genau einer abstrakten Methode zählt nicht als funktionale Schnittstelle.
+
+Lambda-Ausdrücke und funktionale Schnittstellen haben eine ganz besondere Beziehung, denn ein Lambda-Ausdruck ist ein Exemplar einer solchen funktionalen Schnittstelle. Natürlich müssen Typen und Ausnahmen passen. Dass funktionale Schnittstellen genau eine abstrakte Methode vorschreiben, ist eine naheliegende Einschränkung, denn gäbe es mehrere, müsste ein Lambda-Ausdruck ja auch mehrere Implementierungen anbieten oder irgendwie eine Methode bevorzugen und andere ausblenden.
+
+Wenn wir ein Objekt vom Typ einer funktionalen Schnittstelle aufbauen möchten, können wir folglich zwei Wege einschlagen: Wir können die traditionelle Konstruktion über die Bildung von Klassen wählen, die funktionale Schnittstellen implementieren, und dann mit new ein Exemplar bilden, oder wir können mit kompakten Lambda-Ausdrücken arbeiten. Moderne IDEs zeigen uns an, wenn kompakte Lambda-Ausdrücke zum Beispiel statt innerer anonymer Klassen genutzt werden können, und bieten uns mögliche Refactorings an. Lambda-Ausdrücke machen den Code kompakter und nach kurzer Eingewöhnung auch lesbarer.
+
+Hinweis: Funktionale Schnittstellen müssen auf genau eine zu implementierende Methode hinauslaufen, auch wenn aus Oberschnittstellen mehrere Operationen vorgeschrieben werden, die sich aber durch den Einsatz von Generics auf eine Operation verdichten:
+
+Viele funktionale Schnittstellen in der Java-Standardbibliothek
+
+Java bringt viele Schnittstellen mit, die als funktionale Schnittstellen gekennzeichnet sind. Eine kleine Auswahl:
+
+    interface Runnable { void run(); }
+    interface Supplier<T> { T get(); }
+    interface Consumer<T> { void accept(T t); }
+    interface Comparator<T> { int compare(T o1, T o2); }
+    interface ActionListener { void actionPerformed(ActionEvent e); }
+
+Viele davon befinden sich im Paket java.util.function, das in Java 8 eingeführt wurde.
+
+Ob die Schnittstelle noch andere statische Methoden oder Default-Methoden hat – also Schnittstellenmethoden mit vorgegebener Implementierung –, ist egal, wichtig ist nur, dass sie genau eine zu implementierende Operation deklariert.
+ 
+
+
+12.1.4    Der Typ eines Lambda-Ausdrucks ergibt sich durch den Zieltyp 
+
+In Java hat jeder Ausdruck einen Typ. Die Ausdrücke 1 und 1*2 haben einen Typ (nämlich int), genauso wie "A" + "B" (Typ String) oder String.CASE_INSENSITIVE_ORDER (Typ Comparator<String>). Lambda-Ausdrücke haben auch immer einen Typ, denn ein Lambda-Ausdruck ist wie ein Exemplar einer funktionalen Schnittstelle. Damit steht auch der Typ fest. Allerdings verhält es sich im Vergleich zu Ausdrücken wie 1*2 bei Lambda-Ausdrücken etwas anders, denn der Typ von Lambda-Ausdrücken ergibt sich ausschließlich aus dem Kontext. Erinnern wir uns an den Aufruf von sort(…):
+
+Arrays.sort( words, (String s1, String s2) -> { return ... } );
+
+Dort steht nichts vom Typ Comparator, sondern der Compiler erkennt aus dem Typ des zweiten Parameters von sort(…), der ja Comparator ist, ob der Lambda-Ausdruck auf die Methode des Comparators passt oder nicht.
+
+Der Typ eines Lambda-Ausdrucks ist folglich abhängig davon, welche funktionale Schnittstelle er im jeweiligen Kontext gerade realisiert. Der Compiler kann ohne Kenntnis des Zieltyps (engl. target type) keinen Lambda-Ausdruck aufbauen 
+Typ-Inferenz des Compilers
+
+
+Beispiel:  Callable und Supplier sind funktionale Schnittstellen mit Methoden, die keine Parameterlisten deklarieren und eine Referenz zurückgeben; der Code für den Lambda-Ausdruck sieht gleich aus:
+java.util.concurrent.Callable<String> c = () -> { return "Rückgabe"; };
+java.util.function.Supplier<String>   s = () -> { return "Rückgabe"; };
+
+Wer bestimmt den Zieltyp?
+
+Gerade weil an dem Lambda-Ausdruck der Typ nicht abzulesen ist, kann er nur dort verwendet werden, wo ausreichend Typinformationen vorhanden sind. Das sind unter anderem die folgenden Stellen:
+
+
+Tabelle 12.2    Kontextgebende Stellen für Lambda-Ausdrücke   ausgelassen
+
+
+Möglich ist der Einsatz also immer, wenn genug Kontextinformation vorhanden ist. Das gilt auch für den Bedingungsoperator – er kann je nach Bedingung einen unterschiedlichen Lambda-Ausdruck liefern. Beispiel:
+
+Supplier<Double> randomNegOrPos = Math.random() > 0.5 ? () -> { return Math.random(); } : () -> { return -Math.random(); };
+
+Eine lokale Variablendeklaration mit var funktioniert mit Lambda-Ausdrücken nicht: Der Lambda-Ausdruck braucht die linke Seite und var den Typ auf der rechten.
+
+Parametertypen
+In der Praxis ist der häufigste Fall, dass die Parametertypen von Methoden den Zieltyp vorgeben. Der Einsatz von Lambda-Ausdrücken ändert ein wenig die Sichtweise auf überladene Methoden. Unser Beispiel mit () -> { return "Rückgabe"; } macht das deutlich, denn es »passt« auf den Zieltyp Callable<String> genauso wie auf Supplier<String>. Nehmen wir zwei überladene Methoden run(…) an:
+
+
+
+Rufen wir run(c) bzw. run(s) auf, ist das kein Problem, denn c und s sind klar typisiert. Aber run(…) mit dem Lambda-Ausdruck aufzurufen funktioniert nicht, denn der Zieltyp (entweder Callable oder Supplier) ist mehrdeutig; der (Eclipse-)Compiler meldet: »The method run(Callable<Object>) is ambiguous for the type T«. Hier sorgt eine explizite Typumwandlung für Abhilfe.
+
+
+Aus Sicht eines API-Designers sind überladene Methoden natürlich schön; aus Sicht des Nutzers sind Typumwandlungen aber nicht schön. Um explizite Typumwandlungen zu vermeiden, sollte auf überladene Methoden verzichtet werden, wenn diese den Parametertyp einer funktionalen Schnittstelle aufweisen. Stattdessen lassen sich die Methoden unterschiedlich benennen (was bei Konstruktoren natürlich nicht funktioniert). Wird in unserem Fall die Methode runCallable(…) und runSupplier(…) genannt, ist keine Typumwandlung mehr nötig, und der Compiler kann den Typ herleiten.
+Rückgabetypen
+
+Typ-Inferenz spielt bei Lambda-Ausdrücken eine große Rolle – das gilt insbesondere für die Rückgabetypen, die überhaupt nicht in der Deklaration auftauchen und für die es gar keine Syntax gibt; der Compiler »inferrt« sie. In unserem Beispiel
+
+Comparator<String> c =
+  (String s1, String s2) -> { return s1.trim().compareTo( s2.trim() ); };
+ist String als Parametertyp der Comparator-Methode ausdrücklich gegeben; der Rückgabetyp int, den der Ausdruck s1.trim().compareTo( s2.trim()) liefert, taucht dagegen nicht auf.
+
+
+
+Lambda-Ausdrücke haben keinen eigenen Typ an sich, und für das Typsystem von Java ändert sich im Prinzip nichts. Möglicherweise ändert sich das in späteren Java-Versionen.
+
+Ob Lambda-Ausdrücke Objekte sind, sollte nicht überstrapaziert werden. So sind die üblichen Object-Methoden equals(Object), hashCode(), getClass(), toString() und die zur Thread-Kontrolle ohne besondere Bedeutung. Es sollte auch nie ein Szenario geben, in dem Lambda-Ausdrücke mit == verglichen werden müssen, denn das Ergebnis ist laut Spezifikation undefiniert. Echte Objekte haben eine Identität, einen Identity-Hashcode, lassen sich vergleichen und mit instanceof testen und können mit einem synchronisierten Block abgesichert werden – all dies gilt für Lambda-Ausdrücke nicht. Im Grunde charakterisiert der Begriff »Lambda-Ausdruck« schon sehr gut, was wir nie vergessen sollten: Es handelt sich um einen Ausdruck, also etwas, was ausgewertet wird und ein Ergebnis produziert.
+ 
+
+
+12.1.5    Annotation @FunctionalInterface 
+
+Jede Schnittstelle mit genau einer abstrakten Methode eignet sich als funktionale Schnittstelle und damit für einen Lambda-Ausdruck. Jedoch soll nicht jede Schnittstelle in der API, die im Moment nur eine abstrakte Methode deklariert, auch für Lambda-Ausdrücke verwendet werden. So kann zum Beispiel eine Weiterentwicklung der Schnittstelle mit mehreren (abstrakten) Methoden geplant sein, aber zurzeit ist nur eine abstrakte Methode vorhanden. Der Compiler kann nicht wissen, ob sich eine Schnittstelle vielleicht weiterentwickelt.
+
+Um kenntlich zu machen, dass ein interface als funktionale Schnittstelle gedacht ist, existiert der Annotationstyp FunctionalInterface im java.lang-Paket. Diese Annotation markiert, dass es bei genau einer abstrakten Methode und damit bei einer funktionalen Schnittstelle bleiben soll.
+
+Der Compiler prüft, ob die Schnittstelle mit einer solchen Annotation tatsächlich nur exakt eine abstrakte Methode enthält, und löst einen Fehler aus, wenn dem nicht so ist. Aus Kompatibilitätsgründen erzwingt der Compiler diese Annotation bei funktionalen Schnittstellen allerdings nicht. Das ermöglicht es, geschachtelte Klassen, die herkömmliche Schnittstellen mit einer Methode implementieren, einfach in Lambda-Ausdrücke umzuschreiben. Die Annotation ist also keine Voraussetzung für die Nutzung der Schnittstelle in einem Lambda-Ausdruck und dient bisher nur der Dokumentation. In der Java SE sind aber alle zentralen funktionalen Schnittstellen so ausgezeichnet.
+
+Was mit @FunctionalInterface ausgezeichnet ist, bekommt in der Javadoc einen Extrasatz: »Functional Interface: This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.« Das macht funktionale Schnittstellen noch besser sichtbar.
+

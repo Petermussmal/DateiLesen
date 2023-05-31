@@ -1,0 +1,4 @@
+Viele kurze Worte muss der Text haben. 
+Klein und Groß das ist fein.
+Neben der Anzeige der Resultate auf der Konsole oder in einer GUI schreibt Ihr Programm die Resultate sowie den  Text in Auszügen auch zurück in eine neue Datei.
+Machs kurz Sam. Ganz kurz.  

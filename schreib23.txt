@@ -1,0 +1,5 @@
+Ebenso muss der am häufigsten auftretende Anfangsbuchstabe sowie Endbuchgstabe bestimmt werden mit jeweiligem Anteil an den Anfangs- bzw. Endbuchstaben.
+Klein und Großschreibung werden nicht unterschieden.
+Neben der Anzeige der Resultate(auf der Konsole oder in einer GUI schreibt Ihr Programm die angezeigten Resultate sowie den auszugsweisen Text zurück in eine neue Datei.
+Das soll die Wortlänger kurz machen, das hier, nur so. 
+Werden Zahlen wie 2023 auch als Worte gezählt?
